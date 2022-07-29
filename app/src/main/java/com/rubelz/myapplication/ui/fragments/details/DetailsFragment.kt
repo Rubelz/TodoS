@@ -1,20 +1,20 @@
 package com.rubelz.myapplication.ui.fragments.details
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.rubelz.myapplication.R
+import com.rubelz.myapplication.data.model.Todo
 import com.rubelz.myapplication.databinding.FragmentDetailsBinding
+import com.rubelz.myapplication.ui.TodoViewModel
 
 class DetailsFragment : Fragment() {
 
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel: TodoViewModel by viewModels()
 
-    private lateinit var bind: FragmentDetailsBinding
+    private var bind: FragmentDetailsBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,12 +22,23 @@ class DetailsFragment : Fragment() {
     ): View? {
         bind =
             FragmentDetailsBinding.inflate(LayoutInflater.from(inflater.context), container, false)
-        return bind.root
+        return bind?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        bind?.btnSaveTodo?.setOnClickListener {
+            addTodo()
+        }
+    }
 
+    fun addTodo() {
+        val title = bind?.tvTitle?.text.toString()
+        val details = bind?.tvDetails?.text.toString()
+
+        val todo = Todo(title = title, details = details)
+
+        viewModel.addTodo(todo)
     }
 }

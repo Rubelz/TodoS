@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rubelz.myapplication.data.model.Todo
 import com.rubelz.myapplication.databinding.ItemTodoBinding
 
-class TodoAdapter(private val todoList: ArrayList<Todo>) :
+class TodoAdapter(private val todoList: List<Todo>) :
     RecyclerView.Adapter<TodoAdapter.TodoHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoHolder {
@@ -21,6 +21,10 @@ class TodoAdapter(private val todoList: ArrayList<Todo>) :
 
     override fun onBindViewHolder(holder: TodoHolder, position: Int) {
         holder.bind.tvTodoTitle.text = todoList[position].title
+
+        holder.bind.root.setOnClickListener {
+
+        }
     }
 
     override fun getItemCount(): Int = todoList.size
