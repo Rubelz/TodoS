@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.rubelz.myapplication.R
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 
 class MainFragment : Fragment() {
 
@@ -20,5 +23,13 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
+    fun navigateTo(){
+        findNavController().navigate(R.id.detailsFragment)
+    }
 
 }
