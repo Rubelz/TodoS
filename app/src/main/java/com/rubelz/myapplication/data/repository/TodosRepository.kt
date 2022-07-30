@@ -11,7 +11,7 @@ class TodosRepository(val dao: TodoDao) {
 
     fun getAllTodos(): LiveData<List<Todo>> = dao.getAllTodos()
 
-    fun getTodo(id: Long): LiveData<Todo> = dao.getTodo(id)
+    fun getTodo(id: Long) = dao.getTodo(id)
 
     fun addTodo(todo: Todo) {
         CoroutineScope(IO).launch {

@@ -22,21 +22,17 @@ class TodoViewModel(app: Application) : AndroidViewModel(app) {
     fun getTodo(id: Long) = repository.getTodo(id)
 
     fun addTodo(todo: Todo) {
-        viewModelScope.launch {
-            repository.addTodo(todo)
-        }
+        repository.addTodo(todo)
     }
 
     fun deleteTodo(id: Long) {
-        viewModelScope.launch {
-            repository.deleteTodo(id)
-        }
+        repository.deleteTodo(id)
+
     }
 
     fun updateTodo(todo: Todo) {
-        viewModelScope.launch {
-            repository.updateTodo(todo)
-        }
+        repository.updateTodo(todo)
+
     }
 
 }
