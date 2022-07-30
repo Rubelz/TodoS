@@ -2,6 +2,7 @@ package com.rubelz.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -11,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     private var bind: ActivityMainBinding? = null
 
+    var navController: NavController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
@@ -18,9 +20,20 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHost
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
-        navController.navigate(R.id.mainFragment)
+        // Restore screen when config. changes
+        navController?.restoreState(savedInstanceState?.getBundle(NAV_STATE))
 
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(NAV_STATE, navController?.saveState())
+    }
+
+    companion object {
+        const val NAV_STATE = "NAV_STATE"
+    }
+
 }

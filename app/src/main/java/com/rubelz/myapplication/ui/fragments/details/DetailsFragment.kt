@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -42,28 +43,34 @@ class DetailsFragment : Fragment() {
         })
 
         bind?.btnSaveTodo?.setOnClickListener {
-            val title = bind?.tvTitle?.text.toString()
-            val details = bind?.tvDetails?.text.toString()
 
-            if (it != null) {
-                addTodo(todoId, title, details)
-            } else {
-                addTodo(title, details)
-            }
+            saveTodo(todoId)
         }
 
 
         return bind?.root
     }
 
-    fun addTodo(title: String, details: String) {
+
+    private fun saveTodo(todoId: Long? = 0){
+        val title = bind?.tvTitle?.text.toString()
+        val details = bind?.tvDetails?.text.toString()
+
+        if (todoArg.data != null) {
+            addTodo(todoId, title, details)
+        } else {
+            addTodo(title, details)
+        }
+    }
+
+    private fun addTodo(title: String, details: String) {
         val todo = Todo(title = title, details = details)
 
         viewModel.addTodo(todo)
         findNavController().navigate(R.id.action_detailsFragment_to_mainFragment)
     }
 
-    fun addTodo(id: Long?, title: String, details: String) {
+    private fun addTodo(id: Long?, title: String, details: String) {
         val todo = Todo(id, title = title, details = details)
 
         viewModel.updateTodo(todo)
