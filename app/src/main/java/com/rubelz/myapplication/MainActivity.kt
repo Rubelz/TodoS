@@ -38,5 +38,4 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val NAV_STATE = "NAV_STATE"
     }
-
 }

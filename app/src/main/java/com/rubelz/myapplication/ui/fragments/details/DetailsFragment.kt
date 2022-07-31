@@ -1,11 +1,10 @@
 package com.rubelz.myapplication.ui.fragments.details
 
+import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
+import android.view.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,15 +14,14 @@ import com.rubelz.myapplication.R
 import com.rubelz.myapplication.data.model.Todo
 import com.rubelz.myapplication.databinding.FragmentDetailsBinding
 import com.rubelz.myapplication.ui.TodoViewModel
-import java.util.*
 
 class DetailsFragment : Fragment() {
 
-    val todoArg by navArgs<DetailsFragmentArgs>()
+    private var bind: FragmentDetailsBinding? = null
 
     private val viewModel: TodoViewModel by viewModels()
 
-    private var bind: FragmentDetailsBinding? = null
+    val todoArg by navArgs<DetailsFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +34,7 @@ class DetailsFragment : Fragment() {
                 container, false
             )
 
+        // (activity as AppCompatActivity).setSupportActionBar(bind?.detailsToolbar)
         var todoId: Long? = -1
         viewModel.getTodo(todoArg.data).observe(viewLifecycleOwner, Observer {
             todoId = it?.id
@@ -43,19 +42,23 @@ class DetailsFragment : Fragment() {
             bind?.etDetails?.setText(it?.details ?: "")
         })
 
-        bind?.btnSaveTodo?.setOnClickListener {
+        bind?.btnDetailsBack?.setOnClickListener {
             saveTodo(todoId)
+        }
+
+        bind?.btnSaveTodo?.setOnClickListener {
+            createDeleteDialog(todoId)
         }
 
         return bind?.root
     }
 
-
-    private fun saveTodo(todoId: Long? = -1){
+    private fun saveTodo(todoId: Long? = -1) {
         val title = bind?.etTitle?.text.toString()
         val details = bind?.etDetails?.text.toString()
 
-        if (todoArg.data != -1L ) {
+        // -1 means that we are adding a new item
+        if (todoArg.data != -1L) {
             addTodo(todoId, title, details)
         } else {
             addTodo(title, details)
@@ -74,6 +77,30 @@ class DetailsFragment : Fragment() {
 
         viewModel.updateTodo(todo)
         findNavController().navigate(R.id.action_detailsFragment_to_mainFragment)
+    }
+
+    private fun deleteTodo(id: Long) {
+
+        if (id != -1L) {
+            viewModel.deleteTodo(id)
+        }
+
+        findNavController().navigate(R.id.action_detailsFragment_to_mainFragment)
+    }
+
+    fun createDeleteDialog(todoId: Long?) {
+        val dialog = object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> deleteTodo(todoId ?: -1)
+                }
+            }
+        }
+
+        val alertBuilder = AlertDialog.Builder(requireContext())
+        alertBuilder.setMessage("Are you sure?").setPositiveButton("Yes", dialog)
+            .setNegativeButton("Cancel", dialog).show()
+
     }
 
 }
