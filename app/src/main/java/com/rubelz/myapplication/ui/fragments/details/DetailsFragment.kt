@@ -1,6 +1,7 @@
 package com.rubelz.myapplication.ui.fragments.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,28 +36,26 @@ class DetailsFragment : Fragment() {
                 container, false
             )
 
-        var todoId: Long? = 0
+        var todoId: Long? = -1
         viewModel.getTodo(todoArg.data).observe(viewLifecycleOwner, Observer {
             todoId = it?.id
-            bind?.tvTitle?.setText(it?.title)
-            bind?.tvDetails?.setText(it?.details)
+            bind?.etTitle?.setText(it?.title ?: "")
+            bind?.etDetails?.setText(it?.details ?: "")
         })
 
         bind?.btnSaveTodo?.setOnClickListener {
-
             saveTodo(todoId)
         }
-
 
         return bind?.root
     }
 
 
-    private fun saveTodo(todoId: Long? = 0){
-        val title = bind?.tvTitle?.text.toString()
-        val details = bind?.tvDetails?.text.toString()
+    private fun saveTodo(todoId: Long? = -1){
+        val title = bind?.etTitle?.text.toString()
+        val details = bind?.etDetails?.text.toString()
 
-        if (todoArg.data != null) {
+        if (todoArg.data != -1L ) {
             addTodo(todoId, title, details)
         } else {
             addTodo(title, details)

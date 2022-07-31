@@ -22,7 +22,7 @@
             />
 
         <EditText
-            android:id="@+id/tvTitle"
+            android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -33,7 +33,7 @@
 
 
         <EditText
-            android:id="@+id/tvDetails"
+            android:id="@+id/etDetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"

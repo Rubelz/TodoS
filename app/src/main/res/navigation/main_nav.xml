@@ -29,7 +29,7 @@
         <argument
             android:name="data"
             app:argType="long"
-            android:defaultValue="0L" />
+            android:defaultValue="-1L" />
 
     </fragment>
 </navigation>

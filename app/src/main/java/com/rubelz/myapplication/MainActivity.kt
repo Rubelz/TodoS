@@ -12,11 +12,14 @@ class MainActivity : AppCompatActivity() {
 
     private var bind: ActivityMainBinding? = null
 
-    var navController: NavController? = null
+    private var navController: NavController? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bind?.root)
+
+        supportActionBar?.hide()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHost
